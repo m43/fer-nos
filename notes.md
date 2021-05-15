@@ -997,3 +997,264 @@ pid=0: Got no messages for 20 seconds, gonna quit with status code 0. Final loca
 ```
 
 </details>
+
+## Lab 2
+
+Zadatak: Ostvariti programski sustav za izradu digitalne omotnice, digitalnog potpisa te digitalnog pečata koristeći već gotove, slobodno dostupne algoritme. Od kriptografskih algoritama treba korisniku omogućiti izbor svih navedenih algoritama iz svake kategorije:
+
+- Simetrični kriptosustav: AES i 3-DES. Ponuditi na izbor sve moguće veličine ključeva za svaki algoritam te najmanje dva načina kriptiranja (ECB, CBC, OFB, CFB, CTR, ...).
+- Asimetrični kriptosustav: RSA, ponuditi nekoliko različitih veličina ključeva.
+- Funkcija za izračunavanje sažetka poruke (hash funkcija): SHA-2 ili SHA-3. Omogućiti izbor između najmanje dvije od četiri inačice algoritma, npr. SHA3-256 i SHA3-512).
+
+Nije obavezno, ali je poželjno (zbog dodatnih bodova) ostvariti proizvoljno grafičko sučelje.
+
+Prilikom pokretanja programa inicijalno moraju biti podešene vrijedosti svih elemenata sučelja (imena datoteka, duljine ključeva, ...) i odgovarajuće ulazne datoteke moraju postojati (npr. u direktoriju gdje se nalazi program) tako da se program može ODMAH pokrenuti sa zadanim parametrima.
+
+Preporučeni [formati datoteka](http://www.zemris.fer.hr/predmeti/os2/kriptografija/kljucevi.html).
+
+✓
+
+Za pokrenuti testove: `./test.py`
+
+Za pokrenuti demo: `./demo.sh`
+
+<details>
+  <summary>Ispis nakon pokretanja `./demo.py`:</summary>
+
+```js
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  KEY GENERATION  ~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+Namespace(action_command='gen', n=3072, savedir='keys', private_key_filename='id_rsa', public_key_filename='id_rsa.pub')
+Path to private key: keys/id_rsa
+Path to public key: keys/id_rsa.pub
+✓
+# ~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  ENVELOPE  ~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  AES192 + OFB  ~~~~ #
+# ~~~~  CREATE ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='create', sym_algo='AES', sym_key='12345678abcdefgh87654321', sym_key_length=24, sym_iv='12345678abcdefgh', sym_mode='OFB', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Message loaded
+Public key loaded
+Envelope (sym_enc_msg, pub_enc_secret)
+Envelope part1 (sym_enc_msg) path: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path: envelope/envelope.part2
+✓
+# ~~~~  OPEN ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='open', sym_algo='AES', sym_key=None, sym_key_length=24, sym_iv=None, sym_mode='OFB', private_key_path='keys/id_rsa', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Private key loaded
+Envelope part1 (sym_enc_msg) path given as: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path given as: envelope/envelope.part2
+Envelope loaded
+Sym Key ('b'): b'12345678abcdefgh87654321'
+Sym Key (utf-8): 12345678abcdefgh87654321
+Sym IV ('b'): b'12345678abcdefgh'
+Sym IV (utf-8): 12345678abcdefgh
+Message ('b'): b'jure i mate\n'
+Message (utf8): jure i mate
+
+✓
+# ~~~~  AES256 + CFB  ~~~~ #
+# ~~~~  CREATE ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='create', sym_algo='AES', sym_key='12345678abcdefgh87654321hgfedcba', sym_key_length=24, sym_iv='12345678abcdefgh', sym_mode='CFB', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Message loaded
+Public key loaded
+Envelope (sym_enc_msg, pub_enc_secret)
+Envelope part1 (sym_enc_msg) path: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path: envelope/envelope.part2
+✓
+# ~~~~  OPEN ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='open', sym_algo='AES', sym_key=None, sym_key_length=32, sym_iv=None, sym_mode='CFB', private_key_path='keys/id_rsa', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Private key loaded
+Envelope part1 (sym_enc_msg) path given as: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path given as: envelope/envelope.part2
+Envelope loaded
+Sym Key ('b'): b'12345678abcdefgh87654321hgfedcba'
+Sym Key (utf-8): 12345678abcdefgh87654321hgfedcba
+Sym IV ('b'): b'12345678abcdefgh'
+Sym IV (utf-8): 12345678abcdefgh
+Message ('b'): b'jure i mate\n'
+Message (utf8): jure i mate
+
+✓
+# ~~~~  3DES + ECB  ~~~~ #
+# ~~~~  CREATE ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='create', sym_algo='3DES', sym_key='12345678abcdefgh87654321', sym_key_length=24, sym_iv=None, sym_mode='ECB', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Message loaded
+Public key loaded
+Envelope (sym_enc_msg, pub_enc_secret)
+Envelope part1 (sym_enc_msg) path: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path: envelope/envelope.part2
+✓
+# ~~~~  OPEN ENVELOPE  ~~~~ #
+Namespace(action_command='envelope', envelope_action='open', sym_algo='3DES', sym_key=None, sym_key_length=24, sym_iv=None, sym_mode='ECB', private_key_path='keys/id_rsa', envelope_savedir='envelope', envelope_part1_filename='envelope.part1', envelope_part2_filename='envelope.part2')
+Private key loaded
+Envelope part1 (sym_enc_msg) path given as: envelope/envelope.part1
+Envelope part2 (pub_enc_secret) path given as: envelope/envelope.part2
+Envelope loaded
+Sym Key ('b'): b'12345678abcdefgh87654321'
+Sym Key (utf-8): 12345678abcdefgh87654321
+Sym IV ('b'): b''
+Sym IV (utf-8): 
+Message ('b'): b'jure i mate\n'
+Message (utf8): jure i mate
+
+✓
+# ~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  SIGNATURE  ~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  hash_fn  ~~~~ #
+# ~~~~  SIGN MESSAGE  ~~~~ #
+Namespace(action_command='signature', signature_action='sign', hash_fn_name='MD5', message_path='messages/alice.txt', private_key_path='keys/id_rsa', signature_path='signatures/alice.sign')
+Message loaded
+Private key loaded
+Signed saved: signatures/alice.sign
+✓
+# ~~~~  VERIFY VALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='MD5', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature OK
+✓
+# ~~~~  VERIFY INVALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='MD5', message_path='messages/alice_modified.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature INVALID
+✓
+# ~~~~  hash_fn  ~~~~ #
+mkdir: cannot create directory ‘signatures’: File exists
+# ~~~~  SIGN MESSAGE  ~~~~ #
+Namespace(action_command='signature', signature_action='sign', hash_fn_name='SHA256', message_path='messages/alice.txt', private_key_path='keys/id_rsa', signature_path='signatures/alice.sign')
+Message loaded
+Private key loaded
+Signed saved: signatures/alice.sign
+✓
+# ~~~~  VERIFY VALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA256', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature OK
+✓
+# ~~~~  VERIFY INVALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA256', message_path='messages/alice_modified.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature INVALID
+✓
+# ~~~~  hash_fn  ~~~~ #
+mkdir: cannot create directory ‘signatures’: File exists
+# ~~~~  SIGN MESSAGE  ~~~~ #
+Namespace(action_command='signature', signature_action='sign', hash_fn_name='SHA3_512', message_path='messages/alice.txt', private_key_path='keys/id_rsa', signature_path='signatures/alice.sign')
+Message loaded
+Private key loaded
+Signed saved: signatures/alice.sign
+✓
+# ~~~~  VERIFY VALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA3_512', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature OK
+✓
+# ~~~~  VERIFY INVALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA3_512', message_path='messages/alice_modified.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature INVALID
+✓
+# ~~~~  hash_fn  ~~~~ #
+mkdir: cannot create directory ‘signatures’: File exists
+# ~~~~  SIGN MESSAGE  ~~~~ #
+Namespace(action_command='signature', signature_action='sign', hash_fn_name='SHA384', message_path='messages/alice.txt', private_key_path='keys/id_rsa', signature_path='signatures/alice.sign')
+Message loaded
+Private key loaded
+Signed saved: signatures/alice.sign
+✓
+# ~~~~  VERIFY VALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA384', message_path='messages/alice.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature OK
+✓
+# ~~~~  VERIFY INVALID SIGNATURE  ~~~~ #
+Namespace(action_command='signature', signature_action='verify', hash_fn_name='SHA384', message_path='messages/alice_modified.txt', public_key_path='keys/id_rsa.pub', signature_path='signatures/alice.sign')
+Message loaded
+Public key loaded
+Signed hash loaded
+Signature INVALID
+✓
+# ~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  CERTIFICATE  ~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~  ALICE GENERATES HER KEYS -- RSA 2048  ~~~~ #
+Namespace(action_command='gen', n=2048, savedir='keys/alice', private_key_filename='id_rsa', public_key_filename='id_rsa.pub')
+Path to private key: keys/alice/id_rsa
+Path to public key: keys/alice/id_rsa.pub
+✓
+# ~~~~  BOB GENERATES HIS KEYS -- RSA 3072  ~~~~ #
+Namespace(action_command='gen', n=3072, savedir='keys/bob', private_key_filename='id_rsa', public_key_filename='id_rsa.pub')
+Path to private key: keys/bob/id_rsa
+Path to public key: keys/bob/id_rsa.pub
+✓
+
+# ~~~~  ALICE CREATES A CERTIFICATE  ~~~~ #
+Namespace(action_command='cert', certificate_action='create', hash_fn_name='SHA3_512', message_path='messages/alice.txt', private_key_path='keys/alice/id_rsa', public_key_path='keys/bob/id_rsa.pub', sym_algo='AES', sym_key='12345678abcdefgh87654321', sym_key_length=24, sym_iv='12345678abcdefgh', sym_mode='OFB', cert_savedir='certificates/alice', cert_part1_filename='cert.part1', cert_part2_filename='cert.part2', cert_part3_filename='cert.part3')
+Message loaded
+Public key loaded
+Private key loaded
+Certificate (sym_enc_msg, pub_enc_secret, signed_hash)
+Certificate part1 (sym_enc_msg) path: certificates/alice/cert.part1
+Certificate part2 (pub_enc_secret) path: certificates/alice/cert.part2
+Certificate part3 (signed_hash) path: certificates/alice/cert.part3
+✓
+# ~~~~  BOB OPENS THE CERTIFICATE -- BUT FORGETS WHICH KEY WAS WHICH AND SWITCHES THEM  ~~~~ #
+Namespace(action_command='cert', certificate_action='open', hash_fn_name='SHA3_512', private_key_path='keys/alice/id_rsa.pub', public_key_path='keys/bob/id_rsa', sym_algo='AES', sym_key=None, sym_key_length=24, sym_iv=None, sym_mode='OFB', cert_savedir='certificates/alice', cert_part1_filename='cert.part1', cert_part2_filename='cert.part2', cert_part3_filename='cert.part3')
+Public key loaded
+Private key loaded
+Certificate (sym_enc_msg, pub_enc_secret, signed_hash)
+Certificate part1 (sym_enc_msg) path given as: certificates/alice/cert.part1
+Certificate part2 (pub_enc_secret) path given as: certificates/alice/cert.part2
+Certificate part3 (signed_hash) path given as: certificates/alice/cert.part3
+Certificate loaded.
+Signature INVALID
+✓
+# ~~~~  BOB OPENS THE CERTIFICATE -- WITH CORRECT KEYS  ~~~~ #
+Namespace(action_command='cert', certificate_action='open', hash_fn_name='SHA3_512', private_key_path='keys/bob/id_rsa', public_key_path='keys/alice/id_rsa.pub', sym_algo='AES', sym_key=None, sym_key_length=24, sym_iv=None, sym_mode='OFB', cert_savedir='certificates/alice', cert_part1_filename='cert.part1', cert_part2_filename='cert.part2', cert_part3_filename='cert.part3')
+Public key loaded
+Private key loaded
+Certificate (sym_enc_msg, pub_enc_secret, signed_hash)
+Certificate part1 (sym_enc_msg) path given as: certificates/alice/cert.part1
+Certificate part2 (pub_enc_secret) path given as: certificates/alice/cert.part2
+Certificate part3 (signed_hash) path given as: certificates/alice/cert.part3
+Certificate loaded.
+Singature OK
+Sym key ('b'): b'12345678abcdefgh87654321'
+Sym key (utf-8): 12345678abcdefgh87654321
+Sym IV ('b'): b'12345678abcdefgh'
+Sym IV (utf-8): 12345678abcdefgh
+Message ('b'): b'jure i mate\n'
+Message (utf8): jure i mate
+
+✓
+# ~~~~  BOB OPENS THE CERTIFICATE -- BUT EVE TRIED TO CHANGE the encrypted message sym_enc_msg (cert.part1)  ~~~~ #
+Namespace(action_command='cert', certificate_action='open', hash_fn_name='SHA3_512', private_key_path='keys/bob/id_rsa', public_key_path='keys/alice/id_rsa.pub', sym_algo='AES', sym_key=None, sym_key_length=24, sym_iv=None, sym_mode='OFB', cert_savedir='certificates/alice', cert_part1_filename='cert.part1.eve', cert_part2_filename='cert.part2', cert_part3_filename='cert.part3')
+Public key loaded
+Private key loaded
+Certificate (sym_enc_msg, pub_enc_secret, signed_hash)
+Certificate part1 (sym_enc_msg) path given as: certificates/alice/cert.part1.eve
+Certificate part2 (pub_enc_secret) path given as: certificates/alice/cert.part2
+Certificate part3 (signed_hash) path given as: certificates/alice/cert.part3
+Certificate loaded.
+Signature INVALID
+✓
+```
+
+<details>
