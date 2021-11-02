@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-#!/bin/bash
 function title(){
   w=$((${#1}))
   printf "\e[1;34m# ~~~~~~"
